@@ -21,6 +21,8 @@ ENV RENV_PATHS_LIBRARY renv/library
 
 RUN R -e "renv::restore()"
 
+EXPOSE 3838
+
 RUN sudo chown -R shiny:shiny /srv/shiny-server
 
 USER shiny

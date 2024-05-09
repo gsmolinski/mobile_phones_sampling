@@ -107,12 +107,14 @@ save_sample <- function(sample_to_save, path) {
 show_operators_distribution <- function(sampled_data) {
   sampled_data |> 
     dplyr::count(operator) |> 
-    dplyr::mutate(percent = round(n / sum(n), 4)) |> 
-    ggplot2::ggplot(ggplot2::aes(forcats::fct_reorder(operator, percent), percent, label = scales::percent(percent, accuracy = 0.01, decimal.mark = ","))) +
+    dplyr::mutate(share = round(n / sum(n), 4)) |> 
+    dplyr::filter(share * 100 >= 0.1) |> 
+    ggplot2::ggplot(ggplot2::aes(forcats::fct_reorder(operator, share), share, label = scales::percent(share, accuracy = 0.01, decimal.mark = ","))) +
     ggplot2::geom_col(fill = "#DE6FA1") +
     ggplot2::geom_label() +
     ggplot2::coord_flip() +
     ggplot2::scale_y_continuous(labels = scales::label_percent()) +
+    ggplot2::labs(caption = "Shows only operators with at least 0,1% share") +
     ggplot2::theme_minimal() +
     ggplot2::theme(axis.title.x = ggplot2::element_blank(),
                    axis.title.y = ggplot2::element_blank(),
