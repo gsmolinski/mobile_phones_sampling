@@ -1,8 +1,7 @@
 ui <- page_fluid(
   theme = bs_theme(5, 
                    secondary = "#0072B2", 
-                   base_font = font_google("Inter"),
-                   code_font = font_google("JetBrains Mono")),
+                   base_font = font_google("Inter")),
   layout_column_wrap(width = 1/2, min_height = "95vh",
                      card(card_header("Draw sample"),
                           card_body(
@@ -58,7 +57,6 @@ server <- function(input, output, session) {
       paste0("generated_sample_", format(Sys.time(), '%Y-%m-%d %H:%M:%S'), ".xlsx")
     },
     content = function(file) {
-      req(generated_sample())
       save_sample(transform_to_df(generated_sample()), file)
     }
   )
